@@ -34,9 +34,6 @@ defmodule Ebayka.Gateway do
     ]
   end
 
-  defp url do
-    config[:url]
-  end
-
-  def config, do: Application.get_env(:ebayka, Ebayka)
+  defp url, do: config[:url]
+  defp config, do: Application.get_env(:ebayka, Ebayka)
 end
