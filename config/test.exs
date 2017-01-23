@@ -11,4 +11,5 @@ config :ebayka, Ebayka,
   dispatch_time_max: 3,
   postal_code: 95125,
   return_description: "If you are not satisfied, return the book for refund.",
-  level: 989
+  level: 989,
+  gateway: Ebayka.StubGateway

@@ -11,7 +11,7 @@ defmodule Ebayka.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :xml_builder]]
+    [applications: [:logger, :xml_builder, :httpoison]]
   end
 
   defp deps do
