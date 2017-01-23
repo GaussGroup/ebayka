@@ -2,18 +2,21 @@ defmodule Ebayka.Gateway do
   use HTTPoison.Base
 
   def make_request(method, body) do
-    post(url, prepare_body(method, body), headers(method), options)
+    post(url, prepare_request(method, body), headers(method), options)
   end
 
-  def prepare_body(method, body) do
+  def prepare_request(method, body) do
     "<?xml version=\"1.0\" encoding=\"utf-8\"?>
     <#{ method }Request xmlns=\"urn:ebay:apis:eBLBaseComponents\">
       <RequesterCredentials>
         <eBayAuthToken>#{ config[:auth_token] }</eBayAuthToken>
       </RequesterCredentials>
-      #{ body |> XmlBuilder.generate }
+      #{ body |> prepare_body }
     </#{ method }Request>"
   end
+
+  defp prepare_body(body) when is_binary(body), do: body
+  defp prepare_body(body), do: body |> XmlBuilder.generate
 
   defp headers(method) do
     %{
