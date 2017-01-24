@@ -11,13 +11,14 @@ defmodule Ebayka.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :xml_builder, :httpoison]]
+    [applications: [:logger, :xml_builder, :sweet_xml, :httpoison]]
   end
 
   defp deps do
     [{:httpoison, "~> 0.9.0"},
       {:poison, "~> 2.0"},
       {:xml_builder, "~> 0.0.8"},
+      {:sweet_xml, "~> 0.5"},
       {:mock, "~> 0.2.0", only: :test}]
   end
 end
