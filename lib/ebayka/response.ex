@@ -2,8 +2,8 @@ defmodule Ebayka.Response do
   import SweetXml
 
   @schema [
-    ack: ~x"//AddItemResponse//Ack/text()"s,
-    errors: ~x"//AddItemResponse//Errors//LongMessage/text()"ls,
+    ack: ~x"//*//Ack/text()"s,
+    errors: ~x"//*//Errors//LongMessage/text()"ls,
   ]
 
   def build(body) do
