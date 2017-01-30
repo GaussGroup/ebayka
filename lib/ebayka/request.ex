@@ -3,20 +3,15 @@ defmodule Ebayka.Request do
   def make(_name, nil), do: raise(Ebayka.RequestError, message: "You should set body of Ebay method")
 
   def make(name, body), do: gateway.make_request(name, body)
-  def make(name, body, response), do: make(name, body) |> handle_make(response)
+  def make(name, body, mapper), do: make(name, body) |> handle_make(mapper)
 
-  defp handle_make({:ok, %HTTPoison.Response{status_code: 200, body: body}}, response) do
-    base_response = Ebayka.Response.build(body)
-    if success?(base_response) do
-      { :ok, response.build(body) }
-    else
-      { :error, response.errors }
-    end
+  defp handle_make({:ok, %HTTPoison.Response{status_code: 200, body: body}}, mapper) do
+    Ebayka.Response.build(body) |> map(body, mapper)
   end
   defp handle_make(_, _), do: { :error, nil }
 
-  defp success?(%{ack: "Success"}), do: true
-  defp success?(_), do: false
+  defp map(%{ack: "Success"}, body, mapper), do: { :ok, mapper.build(body) }
+  defp map(response, _body, _mapper), do: { :error, response.errors }
 
   defp gateway, do: config[:gateway] || Ebayka.Gateway
   defp config, do: Application.get_env(:ebayka, Ebayka)

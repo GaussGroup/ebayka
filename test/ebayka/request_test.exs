@@ -3,6 +3,21 @@ defmodule Ebayka.RequestTest do
   use ExUnit.Case, async: false
 
   @request {:Item, nil, [ {:Title, nil, "Ebay Product Title"} ] }
+  @invalid_request {:Item, nil, [ {:Title, nil, "Invalid Product"} ] }
+
+  defmodule AddItemResponseTest do
+    import SweetXml
+
+    @schema [
+      ack: ~x"//AddItemResponse//Ack/text()"s,
+      id: ~x"//AddItemResponse//ItemID/text()"s,
+      errors: ~x"//AddItemResponse//Errors//LongMessage/text()"ls,
+    ]
+
+    def build(body) do
+      body |> xmap(@schema)
+    end
+  end
 
   test "#make when name is nil" do
     assert_raise Ebayka.RequestError, "You should set name of Ebay method", fn ->
@@ -18,5 +33,19 @@ defmodule Ebayka.RequestTest do
 
   test "#make" do
     assert {:ok, %HTTPoison.Response{ status_code: 200, body: _body }} = Request.make("AddItem", @request)
+  end
+
+  test "#make with handle response (invalid request)" do
+    { :error, errors } = Request.make("AddItem", @invalid_request, AddItemResponseTest)
+
+    assert errors == ["This Listing is a duplicate of your item: New product 2 (110185886058)."]
+  end
+
+  test "#make with handle response (valid request)" do
+    { :ok, response } = Request.make("AddItem", @request, AddItemResponseTest)
+
+    assert response.ack == "Success"
+    assert response.id == "110185886058"
+    assert response.errors == []
   end
 end
