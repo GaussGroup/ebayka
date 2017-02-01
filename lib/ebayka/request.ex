@@ -11,7 +11,7 @@ defmodule Ebayka.Request do
   defp handle_make(_, _), do: { :error, nil }
 
   defp map(%{ack: "Success"}, body, mapper), do: { :ok, mapper.build(body) }
-  defp map(response, _body, _mapper), do: { :error, response.errors }
+  defp map(response, _body, _mapper), do: { :error, response }
 
   defp gateway, do: config[:gateway] || Ebayka.Gateway
   defp config, do: Application.get_env(:ebayka, Ebayka)

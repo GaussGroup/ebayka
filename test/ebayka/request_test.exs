@@ -38,7 +38,7 @@ defmodule Ebayka.RequestTest do
   test "#make with handle response (invalid request)" do
     { :error, errors } = Request.make("AddItem", @invalid_request, AddItemResponseTest)
 
-    assert errors == ["This Listing is a duplicate of your item: New product 2 (110185886058)."]
+    assert errors == %{ errors: ["This Listing is a duplicate of your item: New product 2 (110185886058)."], ack: "Failure", code: "" }
   end
 
   test "#make with handle response (valid request)" do

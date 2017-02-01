@@ -4,6 +4,7 @@ defmodule Ebayka.Response do
   @schema [
     ack: ~x"//*//Ack/text()"s,
     errors: ~x"//*//Errors//LongMessage/text()"ls,
+    code: ~x"//*//Errors//ErrorCode/text()"s
   ]
 
   def build(body) do
