@@ -1,6 +1,9 @@
 defmodule Ebayka.Gateway do
   use HTTPoison.Base
 
+  @sandbox "https://api.sandbox.ebay.com/ws/api.dll"
+  @production "https://api.ebay.com/ws/api.dll"
+
   def make_request(method, body) do
     post(url, prepare_request(method, body), headers(method), options)
   end
@@ -37,6 +40,13 @@ defmodule Ebayka.Gateway do
     ]
   end
 
-  defp url, do: config[:url]
+  defp url do
+    if config[:sandbox] do
+      @sandbox
+    else
+      @production
+    end
+  end
+
   defp config, do: Application.get_env(:ebayka, Ebayka)
 end
