@@ -11,7 +11,7 @@ defmodule Ebayka.RequestTest do
     @schema [
       ack: ~x"//AddItemResponse//Ack/text()"s,
       id: ~x"//AddItemResponse//ItemID/text()"s,
-      errors: ~x"//AddItemResponse//Errors//LongMessage/text()"ls,
+      errors: ~x"//AddItemResponse//Errors//ShortMessage/text()"ls,
     ]
 
     def build(body) do
@@ -36,9 +36,9 @@ defmodule Ebayka.RequestTest do
   end
 
   test "#make with handle response (invalid request)" do
-    { :error, errors } = Request.make("AddItem", @invalid_request, AddItemResponseTest)
+    { :error, response } = Request.make("AddItem", @invalid_request, AddItemResponseTest)
 
-    assert errors == %{ errors: ["This Listing is a duplicate of your item: New product 2 (110185886058)."], ack: "Failure", code: "" }
+    assert %{ errors: ["This Listing is a duplicate of your item: New product 2 (110185886058)."], ack: "Failure", code: "", body: _body} = response
   end
 
   test "#make with handle response (valid request)" do

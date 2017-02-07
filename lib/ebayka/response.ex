@@ -3,11 +3,13 @@ defmodule Ebayka.Response do
 
   @schema [
     ack: ~x"//*//Ack/text()"s,
-    errors: ~x"//*//Errors//LongMessage/text()"ls,
-    code: ~x"//*//Errors//ErrorCode/text()"s
+    errors: ~x"//*//Errors//ShortMessage/text()"ls,
+    code: ~x"//*//Errors//ErrorCode/text()"s,
   ]
 
   def build(body) do
-    body |> xmap(@schema)
+    body
+      |> xmap(@schema)
+      |> Map.merge(%{ body: body })
   end
 end

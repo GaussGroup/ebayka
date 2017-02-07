@@ -7,10 +7,10 @@ defmodule Ebayka.ResponseTest do
 <VerifyAddItemResponse xmlns=\"urn:ebay:apis:eBLBaseComponents\">
 <Ack>Failure</Ack>
 <Errors>
-  <LongMessage>The category selected is not a leaf category.</LongMessage>
+  <ShortMessage>The category selected is not a leaf category.</ShortMessage>
 </Errors>
 <Errors>
-  <LongMessage>Please enter a valid price for your item (e.g. $0.01).</LongMessage>
+  <ShortMessage>Please enter a valid price for your item (e.g. $0.01).</ShortMessage>
 </Errors>
 <Errors>
   <ErrorCode>1047</ErrorCode>

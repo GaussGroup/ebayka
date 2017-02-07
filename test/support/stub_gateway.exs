@@ -7,7 +7,7 @@ defmodule Ebayka.StubGateway do
                <AddItemResponse xmlns=\"urn:ebay:apis:eBLBaseComponents\">
                  <Ack>Failure</Ack>
                  <Errors>
-                   <LongMessage>This Listing is a duplicate of your item: New product 2 (110185886058).</LongMessage>
+                   <ShortMessage>This Listing is a duplicate of your item: New product 2 (110185886058).</ShortMessage>
                  </Errors>
                </AddItemResponse>"
       }
