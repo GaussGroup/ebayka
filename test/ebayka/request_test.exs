@@ -35,14 +35,14 @@ defmodule Ebayka.RequestTest do
     assert {:ok, %HTTPoison.Response{ status_code: 200, body: _body }} = Request.make("AddItem", @request)
   end
 
-  test "#make with handle response (invalid request)" do
-    { :error, response } = Request.make("AddItem", @invalid_request, AddItemResponseTest)
+  test "#make with handle response (invalid request parse with default mapper)" do
+    { :ok, response } = Request.make_and_parse("AddItem", @invalid_request)
 
     assert %{ errors: ["This Listing is a duplicate of your item: New product 2 (110185886058)."], ack: "Failure", code: "", body: _body} = response
   end
 
   test "#make with handle response (valid request)" do
-    { :ok, response } = Request.make("AddItem", @request, AddItemResponseTest)
+    { :ok, response } = Request.make_and_parse("AddItem", @request, AddItemResponseTest)
 
     assert response.ack == "Success"
     assert response.id == "110185886058"
