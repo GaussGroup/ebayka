@@ -18,7 +18,6 @@ defmodule Ebayka.Gateway do
     </#{ method }Request>"
   end
 
-  defp prepare_body(body) when is_binary(body), do: body
   defp prepare_body(body), do: body |> XmlBuilder.generate
 
   defp headers(method) do

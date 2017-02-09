@@ -27,20 +27,4 @@ defmodule Ebayka.GatewayTest do
       </AddItemRequest>" |> trim_xml
     )
   end
-
-
-
-  test "#prepare_request when body is xml" do
-    assert(Gateway.prepare_request("AddItem", @xml_body) |> trim_xml ==
-      "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-      <AddItemRequest xmlns=\"urn:ebay:apis:eBLBaseComponents\">
-        <RequesterCredentials>
-          <eBayAuthToken>ebay_auth_token</eBayAuthToken>
-        </RequesterCredentials>
-        <Item>
-          <Title>Something Title</Title>
-        </Item>
-      </AddItemRequest>" |> trim_xml
-    )
-  end
 end
